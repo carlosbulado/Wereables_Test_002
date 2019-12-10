@@ -11,6 +11,7 @@ class ViewController: UIViewController
     let DEVICE_ID = "220038000447363333343435"
     var myPhoton : ParticleDevice?
     //MARK: IBOutlets
+    @IBOutlet weak var numberLabel: UILabel!
     
     override func viewDidLoad()
     {
@@ -87,8 +88,20 @@ class ViewController: UIViewController
             } else {
                 print("got event with data \(event)")
                 let choice = (event?.data)!
+                
+                self.updateScreen(choice: "\(choice)")
             }
         })
+    }
+    
+    func updateScreen(choice : String)
+    {
+        DispatchQueue.global(qos: .utility).async {
+            DispatchQueue.main.async {
+                // now update UI on main thread
+                self.numberLabel.text = choice
+            }
+        }
     }
     
     //MARK: Class custom functions
@@ -97,5 +110,14 @@ class ViewController: UIViewController
         myPhoton!.callFunction(functionName, withArguments: arg) { (resultCode : NSNumber?, error : Error?) -> Void in
             if (error == nil) { }
         }
+    }
+    @IBAction func startMonitoringClick(_ sender: Any)
+    {
+        self.callParticleFunc(functionName: "init", arg: []);
+    }
+
+    @IBAction func stopMonitoringClick(_ sender: Any)
+    {
+        self.callParticleFunc(functionName: "stop", arg: []);
     }
 }
