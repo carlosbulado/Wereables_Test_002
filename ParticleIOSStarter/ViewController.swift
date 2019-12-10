@@ -12,6 +12,8 @@ class ViewController: UIViewController
     var myPhoton : ParticleDevice?
     //MARK: IBOutlets
     @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var mohammadSlider: UISlider!
+    @IBOutlet weak var timeSlowsByLabel: UILabel!
     
     override func viewDidLoad()
     {
@@ -119,5 +121,12 @@ class ViewController: UIViewController
     @IBAction func stopMonitoringClick(_ sender: Any)
     {
         self.callParticleFunc(functionName: "stop", arg: []);
+    }
+    
+    @IBAction func onSliderChange(_ sender: Any)
+    {
+        let newValueForSlowDown = Int(self.mohammadSlider.value * 10)
+        self.timeSlowsByLabel.text = "TIME SLOWS DOWN BY: \(newValueForSlowDown)"
+        self.callParticleFunc(functionName: "setTimeSlowDown", arg: ["\(newValueForSlowDown)"]);
     }
 }

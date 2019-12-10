@@ -4,33 +4,72 @@
 
 InternetButton b = InternetButton();
 int secondsPassed = 0;
+bool isRunning = false;
+int thisDelay = 1000;
 
 void setup()
 {
     b.begin();
     
     Particle.function("setHapiness", setHapiness);
-    Particle.function("setSecondsPassed", setSecondsPassed);
+    Particle.function("init", init);
+    Particle.function("stop", stop);
+    Particle.function("setTimeSlowDown", setTimeSlowDown);
 }
 
 void loop()
 {
-    secondsPassed = secondsPassed + 1;
-    
-    if(secondsPassed <= 3) { setHapiness("1"); }
-    else if(secondsPassed <= 6) { setHapiness("2"); }
-    else if(secondsPassed <= 9) { setHapiness("3"); }
-    else if(secondsPassed <= 12) { setHapiness("4"); }
-    else if(secondsPassed <= 15) { setHapiness("5"); }
-    else if(secondsPassed <= 18) { setHapiness("6"); }
-    else { setHapiness("7"); }
-    
-    delay(1000);
+    if(isRunning && secondsPassed <= 21)
+    {
+        secondsPassed = secondsPassed + 1;
+        
+        if(secondsPassed <= 3) { setHapiness("1"); }
+        else if(secondsPassed <= 6) { setHapiness("2"); }
+        else if(secondsPassed <= 9) { setHapiness("3"); }
+        else if(secondsPassed <= 12) { setHapiness("4"); }
+        else if(secondsPassed <= 15) { setHapiness("5"); }
+        else if(secondsPassed <= 18) { setHapiness("6"); }
+        else { setHapiness("7"); }
+        
+        char squantTries[5];
+        itoa(secondsPassed, squantTries, 10);
+        Particle.publish("secondsPassed", squantTries, 60, PRIVATE);
+        
+        delay(thisDelay);
+    }
+    else
+    {
+        b.allLedsOff();
+    }
 }
 
-int setSecondsPassed(String cmd)
+int init(String cmd)
 {
-    secondsPassed = 4;
+    isRunning = true;
+    secondsPassed = 0;
+    return 1;
+}
+
+int stop(String cmd)
+{
+    isRunning = false;
+    secondsPassed = 0;
+    return 1;
+}
+
+int setTimeSlowDown(String cmd)
+{
+    thisDelay = 1000 * 1;
+    if(cmd == "1") { thisDelay = 1000 * 1; }
+    if(cmd == "2") { thisDelay = 1000 * 2; }
+    if(cmd == "3") { thisDelay = 1000 * 3; }
+    if(cmd == "4") { thisDelay = 1000 * 4; }
+    if(cmd == "5") { thisDelay = 1000 * 5; }
+    if(cmd == "6") { thisDelay = 1000 * 6; }
+    if(cmd == "7") { thisDelay = 1000 * 7; }
+    if(cmd == "8") { thisDelay = 1000 * 8; }
+    if(cmd == "9") { thisDelay = 1000 * 9; } 
+    if(cmd == "10") { thisDelay = 1000 * 10; }
     return 1;
 }
 
@@ -131,4 +170,3 @@ void setHalfLeds(String colour1, String colour2)
         b.ledOn(11, 255, 0, 0);
     }
 }
-
