@@ -1,14 +1,134 @@
 // This #include statement was automatically added by the Particle IDE.
 #include <InternetButton.h>
+#include <string.h>
 
 InternetButton b = InternetButton();
+int secondsPassed = 0;
 
 void setup()
 {
-
+    b.begin();
+    
+    Particle.function("setHapiness", setHapiness);
+    Particle.function("setSecondsPassed", setSecondsPassed);
 }
 
 void loop()
 {
-
+    secondsPassed = secondsPassed + 1;
+    
+    if(secondsPassed <= 3) { setHapiness("1"); }
+    else if(secondsPassed <= 6) { setHapiness("2"); }
+    else if(secondsPassed <= 9) { setHapiness("3"); }
+    else if(secondsPassed <= 12) { setHapiness("4"); }
+    else if(secondsPassed <= 15) { setHapiness("5"); }
+    else if(secondsPassed <= 18) { setHapiness("6"); }
+    else { setHapiness("7"); }
+    
+    delay(1000);
 }
+
+int setSecondsPassed(String cmd)
+{
+    secondsPassed = 4;
+    return 1;
+}
+
+int setHapiness(String cmd)
+{
+    b.allLedsOff();
+    if(cmd == "1") { setFullLeds("green"); }
+    if(cmd == "2") { setHalfLeds("green", "blue"); }
+    if(cmd == "3") { setFullLeds("blue"); }
+    if(cmd == "4") { setHalfLeds("blue", "yellow"); }
+    if(cmd == "5") { setFullLeds("yellow"); }
+    if(cmd == "6") { setHalfLeds("yellow", "red"); }
+    if(cmd == "7") { setFullLeds("red"); }
+    return 1;
+}
+
+void setFullLeds(String colour)
+{
+    if(colour == "green") { b.allLedsOn(0, 255, 0); }
+    if(colour == "blue") { b.allLedsOn(0, 0, 255); }
+    if(colour == "yellow") { b.allLedsOn(0, 255, 255); }
+    if(colour == "red") { b.allLedsOn(255, 0, 0); }
+}
+
+void setHalfLeds(String colour1, String colour2)
+{
+    if(colour1 == "green")
+    {
+        b.ledOn(0, 0, 255, 0);
+        b.ledOn(1, 0, 255, 0);
+        b.ledOn(2, 0, 255, 0);
+        b.ledOn(3, 0, 255, 0);
+        b.ledOn(4, 0, 255, 0);
+        b.ledOn(5, 0, 255, 0);
+    }
+    if(colour1 == "blue")
+    {
+        b.ledOn(0, 0, 0, 255);
+        b.ledOn(1, 0, 0, 255);
+        b.ledOn(2, 0, 0, 255);
+        b.ledOn(3, 0, 0, 255);
+        b.ledOn(4, 0, 0, 255);
+        b.ledOn(5, 0, 0, 255);
+    }
+    if(colour1 == "yellow")
+    {
+        b.ledOn(0, 0, 255, 255);
+        b.ledOn(1, 0, 255, 255);
+        b.ledOn(2, 0, 255, 255);
+        b.ledOn(3, 0, 255, 255);
+        b.ledOn(4, 0, 255, 255);
+        b.ledOn(5, 0, 255, 255);
+    }
+    if(colour1 == "red")
+    {
+        b.ledOn(0, 255, 0, 0);
+        b.ledOn(1, 255, 0, 0);
+        b.ledOn(2, 255, 0, 0);
+        b.ledOn(3, 255, 0, 0);
+        b.ledOn(4, 255, 0, 0);
+        b.ledOn(5, 255, 0, 0);
+    }
+    
+    if(colour2 == "green")
+    {
+        b.ledOn(6, 0, 255, 0);
+        b.ledOn(7, 0, 255, 0);
+        b.ledOn(8, 0, 255, 0);
+        b.ledOn(9, 0, 255, 0);
+        b.ledOn(10, 0, 255, 0);
+        b.ledOn(11, 0, 255, 0);
+    }
+    if(colour2 == "blue")
+    {
+        b.ledOn(6, 0, 0, 255);
+        b.ledOn(7, 0, 0, 255);
+        b.ledOn(8, 0, 0, 255);
+        b.ledOn(9, 0, 0, 255);
+        b.ledOn(10, 0, 0, 255);
+        b.ledOn(11, 0, 0, 255);
+    }
+    if(colour2 == "yellow")
+    {
+        b.ledOn(6, 0, 255, 255);
+        b.ledOn(7, 0, 255, 255);
+        b.ledOn(8, 0, 255, 255);
+        b.ledOn(9, 0, 255, 255);
+        b.ledOn(10, 0, 255, 255);
+        b.ledOn(11, 0, 255, 255);
+    }
+    if(colour2 == "red")
+    {
+        b.ledOn(6, 255, 0, 0);
+        b.ledOn(7, 255, 0, 0);
+        b.ledOn(8, 255, 0, 0);
+        b.ledOn(9, 255, 0, 0);
+        b.ledOn(10, 255, 0, 0);
+        b.ledOn(11, 255, 0, 0);
+    }
+}
+
