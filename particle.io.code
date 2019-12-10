@@ -1,0 +1,14 @@
+// This #include statement was automatically added by the Particle IDE.
+#include <InternetButton.h>
+
+InternetButton b = InternetButton();
+
+void setup()
+{
+
+}
+
+void loop()
+{
+
+}
